@@ -81,12 +81,12 @@ li {
   display: flex;
   justify-content: space-between;
   padding: 8px;
-  background: #f4f4f4;
+  background: #1a1a1a;
   margin: 5px 0;
   cursor: pointer;
 }
 .done {
   text-decoration: line-through;
-  color: gray;
+  color: rgb(122, 66, 66);
 }
 </style>
