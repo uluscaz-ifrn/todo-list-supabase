@@ -2,8 +2,11 @@
 import { ref, onMounted } from 'vue';
 import supabase from '../supabase';
 
+const tarefas = ref([]);
+const novaTarefa = ref('');
 const fetchTarefas = async () => {
   const { data, error } = await supabase.from('tarefas').select('*').order('id', { ascending: false });
+  console.log('Tarefas do Supabase:', data, error);
   if (error) console.error(error);
   else tarefas.value = data;
 };
