@@ -2,6 +2,12 @@
 import { ref, onMounted } from 'vue';
 import supabase from '../supabase';
 
+const fetchTarefas = async () => {
+  const { data, error } = await supabase.from('tarefas').select('*').order('id', { ascending: false });
+  if (error) console.error(error);
+  else tarefas.value = data;
+};
+
 const addTarefa = async () => {
   if (!novaTarefa.value) return;
   
@@ -21,4 +27,7 @@ const addTarefa = async () => {
       <input v-model="novaTarefa" placeholder="Nova tarefa..." />
       <button @click="addTarefa">Adicionar</button>
     </div>
+    <ul>
+      <li v-for="tarefa in tarefas" :key="tarefa.id"></li>
+    </ul>
 </template>
