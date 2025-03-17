@@ -38,6 +38,7 @@ onMounted(fetchTarefas);
 </script>
 
 <template>
+  <div class="container">
     <h1>Lista de Tarefas</h1>
     <div class="add-task">
       <input v-model="novaTarefa" placeholder="Nova tarefa..." />
@@ -51,4 +52,41 @@ onMounted(fetchTarefas);
         <button @click="deleteTarefa(tarefa.id)">❌</button>
       </li>
     </ul>
+  </div>
 </template>
+<style scoped>
+.container {
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+}
+.add-task {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+input {
+  flex: 1;
+  padding: 8px;
+}
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  background: #f4f4f4;
+  margin: 5px 0;
+  cursor: pointer;
+}
+.done {
+  text-decoration: line-through;
+  color: gray;
+}
+</style>
