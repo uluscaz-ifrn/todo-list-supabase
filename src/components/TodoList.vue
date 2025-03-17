@@ -24,6 +24,14 @@ const toggleTarefa = async (tarefa) => {
   if (error) console.error(error);
   else tarefa.concluida = !tarefa.concluida;
 };
+
+const deleteTarefa = async (id) => {
+  const { error } = await supabase.from('tarefas').delete().eq('id', id);
+  if (error) console.error(error);
+  else tarefas.value = tarefas.value.filter(t => t.id !== id);
+};
+
+onMounted(fetchTarefas);
 </script>
 
 <template>
@@ -33,9 +41,11 @@ const toggleTarefa = async (tarefa) => {
       <button @click="addTarefa">Adicionar</button>
     </div>
     <ul>
-      <li v-for="tarefa in tarefas" :key="tarefa.id"></li>
-      <span :class="{ done: tarefa.concluida }" @click="toggleTarefa(tarefa)">
+      <li v-for="tarefa in tarefas" :key="tarefa.id">
+        <span :class="{ done: tarefa.concluida }" @click="toggleTarefa(tarefa)">
           {{ tarefa.titulo }}
         </span>
+        <button @click="deleteTarefa(tarefa.id)">❌</button>
+      </li>
     </ul>
 </template>
