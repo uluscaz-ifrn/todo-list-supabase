@@ -19,6 +19,11 @@ const addTarefa = async () => {
   }
 };
 
+const toggleTarefa = async (tarefa) => {
+  const { error } = await supabase.from('tarefas').update({ concluida: !tarefa.concluida }).eq('id', tarefa.id);
+  if (error) console.error(error);
+  else tarefa.concluida = !tarefa.concluida;
+};
 </script>
 
 <template>
@@ -29,5 +34,8 @@ const addTarefa = async () => {
     </div>
     <ul>
       <li v-for="tarefa in tarefas" :key="tarefa.id"></li>
+      <span :class="{ done: tarefa.concluida }" @click="toggleTarefa(tarefa)">
+          {{ tarefa.titulo }}
+        </span>
     </ul>
 </template>
