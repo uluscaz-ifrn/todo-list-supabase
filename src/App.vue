@@ -17,7 +17,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="user">
+  <div v-if="user" class="container">
     <TodoList />
     <button @click="supabase.auth.signOut()">Sair</button>
   </div>
@@ -25,4 +25,9 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.container {
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+}
 </style>
