@@ -1,35 +1,40 @@
-# todolist-supabase
+# Todo List com Vue.js e Supabase
 
-This template should help get you started developing with Vue 3 in Vite.
+Este projeto é uma aplicação de lista de tarefas (Todo List) construída com Vue.js e integrada ao Supabase para autenticação e armazenamento de dados.
 
-## Recommended IDE Setup
+## 📌 Tecnologias Utilizadas
+- Vue.js 3 (Composition API)
+- Supabase (Autenticação e Banco de Dados)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🚀 Funcionalidades
+- Autenticação de usuário com Supabase
+- Adicionar, listar e remover tarefas
+- Persistência de dados no banco do Supabase
 
-## Customize configuration
+## 🛠️ Como Executar o Projeto
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 1️⃣ Clone este repositório:
+```sh
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
+```
 
-## Project Setup
-
+### 2️⃣ Instale as dependências:
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 3️⃣ Configure o Supabase:
+Crie um arquivo `.env.local` na raiz do projeto e adicione suas credenciais do Supabase:
+```env
+VITE_SUPABASE_URL=your-supabase-url
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
 
+### 4️⃣ Inicie o servidor local:
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+## 📄 Licença
+Este projeto está sob a licença MIT. Sinta-se à vontade para utilizá-lo e modificá-lo!
