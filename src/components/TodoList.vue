@@ -2,47 +2,65 @@
 import { ref, onMounted } from 'vue';
 import supabase from '../supabase';
 
-const tarefas = ref([]);
-const novaTarefa = ref('');
+const tasks = ref([]);
+const novatask = ref('');
 const user = ref(null);
 
 onMounted(async () => {
   const { data } = await supabase.auth.getUser();
   user.value = data.user;
 
-  if (user.value) fetchTarefas();
+  if (user.value) fetchtasks();
 });
 
-const fetchTarefas = async () => {
+const fetchtasks = async () => {
   const { data } = await supabase
-    .from('tarefas')
+    .from('tasks')
     .select('*')
     .eq('user_id', user.value.id)
     .order('id', { ascending: false });
 
-  tarefas.value = data;
+  tasks.value = data;
 };
 
-const addTarefa = async () => {
-  if (!novaTarefa.value) return;
+const addtask = async () => {
+  if (!novatask.value) return;
 
   const { data } = await supabase
-    .from('tarefas')
-    .insert([{ titulo: novaTarefa.value, concluida: false, user_id: user.value.id }]);
+    .from('tasks')
+    .insert([{ titulo: novatask.value, concluida: false, user_id: user.value.id }]);
 
-  if (data) tarefas.value.unshift(data[0]);
-  novaTarefa.value = '';
+  if (data) tasks.value.unshift(data[0]);
+  novatask.value = '';
 };
+
+const deleteTask = async (taskId) => {
+  const { error } = await supabase.from("tasks").delete().eq("id", taskId);
+  if (error) {
+    console.error("Erro ao excluir task:", error);
+  } else {
+    tasks.value = tasks.value.filter((task) => task.id !== taskId);
+  }
+};
+
+const toggletask = async (task) => {
+   const { error } = await supabase.from('tasks').update({ concluida: !task.concluida }).eq('id', task.id);
+   if (error) console.error(error);
+   else task.concluida = !task.concluida;
+ };
 </script>
 
 <template>
   <div>
-    <h2>Minhas Tarefas</h2>
-    <input v-model="novaTarefa" placeholder="Nova tarefa..." />
-    <button @click="addTarefa">Adicionar</button>
+    <h2>Minhas tasks</h2>
+    <input v-model="novatask" placeholder="Nova task..." />
+    <button @click="addtask">Adicionar</button>
     <ul>
-      <li v-for="tarefa in tarefas" :key="tarefa.id">
-        {{ tarefa.titulo }}
+      <li v-for="(task, index) in tasks" :key="index">
+        <span :class="{ done: task.concluida }" @click="toggletask(task)">
+        {{ task?.titulo ?? "task sem título" }}
+      </span>
+        <button v-if="task?.id" @click="deleteTask(task.id)">❌ Remover</button>
       </li>
     </ul>
   </div>
