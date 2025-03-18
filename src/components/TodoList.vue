@@ -53,14 +53,14 @@ const toggletask = async (task) => {
 <template>
   <div>
     <h2>Minhas tasks</h2>
-    <input v-model="novatask" placeholder="Nova task..." />
-    <button @click="addtask">Adicionar</button>
+    <v-text-field v-model="novatask" placeholder="Nova task..." />
+    <v-btn @click="addtask">Adicionar</v-btn>
     <ul>
       <li v-for="(task, index) in tasks" :key="index">
         <span :class="{ done: task.concluida }" @click="toggletask(task)">
         {{ task?.titulo ?? "task sem título" }}
       </span>
-        <button v-if="task?.id" @click="deleteTask(task.id)">❌ Remover</button>
+        <v-btn v-if="task?.id" @click="deleteTask(task.id)">❌ Remover</v-btn>
       </li>
     </ul>
   </div>
@@ -71,11 +71,11 @@ const toggletask = async (task) => {
   gap: 10px;
   margin-bottom: 20px;
 }
-input {
+v-text-field {
   flex: 1;
   padding: 8px;
 }
-button {
+v-btn {
   padding: 8px 12px;
   cursor: pointer;
 }
@@ -87,7 +87,7 @@ li {
   display: flex;
   justify-content: space-between;
   padding: 8px;
-  background: #1a1a1a;
+  background: #cccccc;
   margin: 5px 0;
   cursor: pointer;
 }

@@ -32,10 +32,10 @@ const handleAuth = async (isLogin) => {
 
 <template>
   <div>
-    <input v-model="email" type="email" placeholder="Digite seu e-mail" />
-    <input v-model="password" type="password" placeholder="Digite sua senha" />
-    <button @click="handleAuth(true)">Login</button>
-    <button @click="handleAuth(false)">Cadastrar</button>
+    <v-text-field v-model="email" type="email" placeholder="Digite seu e-mail"/>
+    <v-text-field v-model="password" type="password" placeholder="Digite sua senha" />
+    <v-btn @click="handleAuth(true)">Login</v-btn>
+    <v-btn @click="handleAuth(false)">Cadastrar</v-btn>
     <p v-if="errorMessage">{{ errorMessage }}</p>
   </div>
 </template>
