@@ -66,11 +66,6 @@ const toggletask = async (task) => {
   </div>
 </template>
 <style scoped>
-.container {
-  max-width: 400px;
-  margin: auto;
-  text-align: center;
-}
 .add-task {
   display: flex;
   gap: 10px;
