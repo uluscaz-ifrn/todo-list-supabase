@@ -4,52 +4,45 @@ import supabase from '../supabase';
 
 const tarefas = ref([]);
 const novaTarefa = ref('');
+const user = ref(null);
+
+onMounted(async () => {
+  const { data } = await supabase.auth.getUser();
+  user.value = data.user;
+
+  if (user.value) fetchTarefas();
+});
+
 const fetchTarefas = async () => {
-  const { data, error } = await supabase.from('tarefas').select('*').order('id', { ascending: false });
-  console.log('Tarefas do Supabase:', data, error);
-  if (error) console.error(error);
-  else tarefas.value = data;
+  const { data } = await supabase
+    .from('tarefas')
+    .select('*')
+    .eq('user_id', user.value.id)
+    .order('id', { ascending: false });
+
+  tarefas.value = data;
 };
 
 const addTarefa = async () => {
   if (!novaTarefa.value) return;
-  
-  const { data, error } = await supabase.from('tarefas').insert([{ titulo: novaTarefa.value, concluida: false }]);
-  if (error) console.error(error);
-  else {
-    tarefas.value.unshift(data[0]);
-    novaTarefa.value = '';
-  }
-};
 
-const toggleTarefa = async (tarefa) => {
-  const { error } = await supabase.from('tarefas').update({ concluida: !tarefa.concluida }).eq('id', tarefa.id);
-  if (error) console.error(error);
-  else tarefa.concluida = !tarefa.concluida;
-};
+  const { data } = await supabase
+    .from('tarefas')
+    .insert([{ titulo: novaTarefa.value, concluida: false, user_id: user.value.id }]);
 
-const deleteTarefa = async (id) => {
-  const { error } = await supabase.from('tarefas').delete().eq('id', id);
-  if (error) console.error(error);
-  else tarefas.value = tarefas.value.filter(t => t.id !== id);
+  if (data) tarefas.value.unshift(data[0]);
+  novaTarefa.value = '';
 };
-
-onMounted(fetchTarefas);
 </script>
 
 <template>
-  <div class="container">
-    <h1>Lista de Tarefas</h1>
-    <div class="add-task">
-      <input v-model="novaTarefa" placeholder="Nova tarefa..." />
-      <button @click="addTarefa">Adicionar</button>
-    </div>
+  <div>
+    <h2>Minhas Tarefas</h2>
+    <input v-model="novaTarefa" placeholder="Nova tarefa..." />
+    <button @click="addTarefa">Adicionar</button>
     <ul>
       <li v-for="tarefa in tarefas" :key="tarefa.id">
-        <span :class="{ done: tarefa.concluida }" @click="toggleTarefa(tarefa)">
-          {{ tarefa.titulo }}
-        </span>
-        <button @click="deleteTarefa(tarefa.id)">❌</button>
+        {{ tarefa.titulo }}
       </li>
     </ul>
   </div>
